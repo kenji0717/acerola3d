@@ -1,0 +1,294 @@
+<project name="acerola3d" default="jar" basedir=".">
+
+    <!-- ここから環境設定 -->
+    <!--
+    環境変数から値を取得して設定するようにしている。 
+    処理される環境変数は以下の物だが、指定しなければデフォルトの値が使われる。
+    * JAVA_HOME16
+        - JDK1.6のJAVA_HOME．rt.jarを探すのに使われる．
+        - デフォルトは${basedir}/lib/
+    * JAVA3D_JARDIR_PATH
+        - Java3D関係のJARファイルを読み込む場所(joal,joalmixer,joglも含む)
+        - デフォルトは${basedir}/lib/A3DepLibs/lib/
+    * JAVA3D_LIBRARY_PATH
+        - Java3D関係のネイティブライブラリを読み込む場所(joal,joalmixer,joglも含む)
+        - デフォルトは${basedir}/lib/java3d/
+    * JAXB_JARDIR_PATH
+        - JAXB関係のJARファイルを読み込む場所
+        - デフォルトは${basedir}/lib/jaxb/
+    * J3D_REND
+        - Java3Dのレンダリングに使うエンジンの指定(jogl,ogl,d3dなどが指定可能)
+        - デフォルトはプラットフォーム依存
+    * J3D_AUDIODEVICE
+        - Java3Dのオーディオミキサーのクラス名の指定(以下のような物)
+            + org.jdesktop.j3d.audioengines.joal.JOALMixer
+            + com.sun.j3d.audioengines.javasound.JavaSoundMixer
+            + com.sun.j3d.audioengines.headspace.HeadspaceMixer
+            + jp.sourceforge.acerola3d.sound.JOALMixer2
+        - デフォルトはcom.sun.j3d.audioengines.javasound.JavaSoundMixer
+    * JMF_JARDIR_PATH
+        - JMF関係のJARファイルを読み込む場所
+        - デフォルトは${basedir}/lib/
+    * JAVA_SOUND_SPI_JARDIR_PATH
+        - Java SoundのSPIを提供するJARファイルの置いてある場所
+        - デフォルトは${basedir}/lib/
+    * ACEROLA3D_ACTION3D_SOUND
+        - Action3Dオブジェクトが音声を再生する機構の指定
+        - J3D_AUDIODEVICEとJOAL_DIRECT(というか本当はJ3D_AUDIODEVICE以外)が指定可能
+        - デフォルトはJOAL_DIRECT
+    -->
+
+    <property environment="env"/>
+    <!-- JDK1.6のJAVA_HOEMの場所 -->
+    <condition property="my.java_home16" value="${env.JAVA_HOME16}">
+        <isset property="env.JAVA_HOME16"/>
+    </condition>
+    <condition property="my.java_home16" value="${basedir}/lib/">
+        <not><isset property="my.java_home16"/></not>
+    </condition>
+    <!-- Java3D関係のJARファイルを読み込む場所の設定 -->
+    <condition property="my.java3d.jardir.path" value="${env.JAVA3D_JARDIR_PATH}">
+        <isset property="env.JAVA3D_JARDIR_PATH"/>
+    </condition>
+    <condition property="my.java3d.jardir.path" value="${basedir}/lib/A3DepLibs/lib/">
+        <not><isset property="my.java3d.jardir.path"/></not>
+    </condition>
+    <!-- Java3D関係のネイティブライブラリを読み込む場所の設定 -->
+    <condition property="my.java3d.library.path" value="-Djava.library.path=${env.JAVA3D_LIBRARY_PATH}">
+        <isset property="env.JAVA3D_LIBRARY_PATH"/>
+    </condition>
+    <condition property="my.java3d.library.path" value="-Djava.library.path=${basedir}/lib/java3d/">
+        <not><isset property="my.java3d.library.path"/></not>
+    </condition>
+    <!-- JAXB関係のJARファイルを読み込む場所の設定 -->
+    <condition property="my.jaxb.jardir.path" value="${env.JAXB_JARDIR_PATH}">
+        <isset property="env.JAXB_JARDIR_PATH"/>
+    </condition>
+    <condition property="my.jaxb.jardir.path" value="${basedir}/lib/jaxb/">
+        <not><isset property="my.jaxb.jardir.path"/></not>
+    </condition>
+    <!-- Java3Dのレンダリングに使うエンジンの指定 -->
+    <condition property="my.j3d.rend" value="-Dj3d.rend=${env.J3D_REND}">
+        <isset property="env.J3D_REND"/>
+    </condition>
+    <condition property="my.j3d.rend" value="-Dj3d.dummy=dummy">
+        <not><isset property="my.j3d.rend"/></not>
+    </condition>
+    <!-- Java3Dのオーディオミキサーのクラス名の指定 -->
+    <condition property="my.j3d.audiodevice" value="-Dj3d.audiodevice=${env.J3D_AUDIODEVICE}">
+        <isset property="env.J3D_AUDIODEVICE"/>
+    </condition>
+    <condition property="my.j3d.audiodevice" value="-Dj3d.audiodevice=com.sun.j3d.audioengines.javasound.JavaSoundMixer">
+        <not><isset property="my.j3d.audiodevice"/></not>
+    </condition>
+    <!-- JMF関係のJARファイルを読み込む場所の設定 -->
+    <condition property="my.jmf.jardir.path" value="${env.JMF_JARDIR_PATH}">
+        <isset property="env.JMF_JARDIR_PATH"/>
+    </condition>
+    <condition property="my.jmf.jardir.path" value="${basedir}/lib/">
+        <not><isset property="my.jmf.jardir.path"/></not>
+    </condition>
+    <!-- Java SoundのSPIを提供するJARファイルの置いてある場所 -->
+    <condition property="my.jsspi.jardir.path" value="${env.JAVA_SOUND_SPI_JARDIR_PATH}">
+        <isset property="env.JAVA_SOUND_SPI_JARDIR_PATH"/>
+    </condition>
+    <condition property="my.jsspi.jardir.path" value="${basedir}/lib/">
+        <not><isset property="my.jsspi.jardir.path"/></not>
+    </condition>
+    <!-- Action3Dオブジェクトが音声を再生する機構の指定 -->
+    <condition property="my.acerola3d.action3d.sound" value="-Dacerola3d.action3d.sound=${env.ACEROLA3D_ACTION3D_SOUND}">
+        <isset property="env.ACEROLA3D_ACTION3D_SOUND"/>
+    </condition>
+    <condition property="my.acerola3d.action3d.sound" value="-Dacerola3d.action3d.sound=JOAL_DIRECT">
+        <not><isset property="my.acerola3d.action3d.sound"/></not>
+    </condition>
+
+    <!-- 環境設定、ここまで -->
+    
+    <path id="compile.class.path">
+        <fileset dir="${my.java3d.jardir.path}">
+            <include name="*.jar"/>
+        </fileset>
+        <fileset dir="${my.jaxb.jardir.path}">
+            <include name="*.jar"/>
+        </fileset>
+        <fileset dir="${my.jmf.jardir.path}">
+            <include name="*.jar"/>
+        </fileset>
+        <pathelement location="lib/a3-vrml97.jar"/>
+    </path>
+
+    <path id="compile.boot.path">
+            <fileset dir="${my.java_home16}">
+                <include name="**/rt.jar"/>
+            </fileset>
+    </path>
+
+    <taskdef name="sablecc" classname="org.sablecc.ant.taskdef.Sablecc">
+        <classpath>
+            <pathelement location="sableccJars/sablecc.jar"/>
+        </classpath>
+    </taskdef>
+
+    <taskdef name="xjc" classname="com.sun.tools.xjc.XJCTask">
+        <classpath>
+            <fileset dir="${my.jaxb.jardir.path}" includes="*.jar"/>
+            <fileset dir="${my.java3d.jardir.path}" includes="*.jar"/>
+        </classpath>
+    </taskdef>
+
+    <!-- 以下のuptodateでsableccが必要かどうかチェック -->
+    <uptodate property="sablecc.notRequired" srcfile="grammar/bvh.sablecc">
+        <mapper type="merge" to="src/jp/sourceforge/acerola3d/a3/bvh/analysis"/>
+    </uptodate>
+
+    <target name="grammar" unless="sablecc.notRequired">
+        <sablecc src="grammar" outputdirectory="src" includes="*.sablecc"/>
+    </target>
+
+    <target name="xjc">
+        <xjc destdir="src" encoding="UTF-8">
+            <schema file="grammar/catalog.xsd"/>
+            <produces dir="src/jp/sourceforge/acerola3d/a3/catalog" includes="**/*"/>
+        </xjc>
+    </target>
+
+    <target name="compile" depends="grammar,xjc">
+        <mkdir dir="build"/>
+        <copy todir="build/jp">
+            <fileset dir="src/jp" includes="**/*.dat"/>
+        </copy>
+        <copy todir="build/jp/sourceforge/acerola3d/resources">
+            <fileset dir="src/jp/sourceforge/acerola3d/resources"/>
+        </copy>
+        <javac srcdir="src" destdir="build" encoding="utf-8" debug="on" source="1.6" target="1.6" includeantruntime="false">
+            <bootclasspath refid="compile.boot.path" />
+            <classpath refid="compile.class.path"/>
+            <!--
+            <compilerarg value="-Xlint:unchecked" />
+            -->
+        </javac>
+    </target>
+
+    <target name="jar" depends="compile">
+        <jar jarfile="release/acerola3d.jar" basedir="build"
+             manifest="release/acerola3dManifest"/>
+    </target>
+
+    <target name="clean">
+        <delete dir="build" />
+        <delete dir="docs/api" />
+        <delete file="release/acerola3d.jar"/>
+    </target>
+
+    <target name="distclean" depends="clean">
+        <delete dir="src/jp/sourceforge/acerola3d/a3/bvh/analysis"/>
+        <delete dir="src/jp/sourceforge/acerola3d/a3/bvh/lexer"/>
+        <delete dir="src/jp/sourceforge/acerola3d/a3/bvh/node"/>
+        <delete dir="src/jp/sourceforge/acerola3d/a3/bvh/parser"/>
+        <delete dir="src/jp/sourceforge/acerola3d/a3/catalog"/>
+        <delete dir="docs/api" />
+    </target>
+
+    <target name="javadoc" depends="compile">
+        <javadoc packagenames="jp.sourceforge.acerola3d,
+                               jp.sourceforge.acerola3d.a2,
+                               jp.sourceforge.acerola3d.a3,
+                               jp.sourceforge.acerola3d.a3.bvh"
+                 sourcepath="src"
+                 destdir="docs/api"
+                 encoding="utf-8"
+                 classpath="lib/a3-vrml97.jar"
+                 charset="utf-8">
+            <classpath refid="compile.class.path"/>
+        </javadoc>
+    </target>
+
+    <target name="version-input" unless="version">
+        <echo>*****************************</echo>
+        <echo>Please specify the version...</echo>
+        <echo>*****************************</echo>
+        <input message="input package version:" addproperty="version"/>
+    </target>
+
+    <target name="bin-package" depends="version-input,jar">
+        <tstamp><format property="my.today" pattern="yyyy,MM/dd"/></tstamp>
+        <copy todir="release/Acerola3D_Libraries/">
+            <fileset dir="lib/A3DepLibs">
+                <include name="**"/>
+                <exclude name="README.txt"/>
+            </fileset>
+        </copy>
+        <copy file="release/acerola3d.jar" todir="release/Acerola3D_Libraries/lib"/> 
+        <copy file="release/Acerola3D_Libraries_README.txt"
+              tofile="release/Acerola3D_Libraries/README.txt"
+              encoding="UTF8"
+              overwrite="true">
+            <filterset>
+                <filter token="date" value="${my.today}"/>
+                <filter token="version" value="Version:${version}"/>
+            </filterset>
+        </copy>
+        <copy file="COPYING" todir="release/Acerola3D_Libraries/"/>
+        <copy file="COPYRIGHT" todir="release/Acerola3D_Libraries/"/>
+        <copy file="release/acerola3dManifest" todir="release/Acerola3D_Libraries/bin/"/>
+        <!-- 実行権が付いたファイルをZIPアーカイブに入れたい時は
+             tarで作って，これをZIPに変換すればいいらしい． -->
+        <tar destfile="../Acerola3D_Libraries_${version}.tar">
+            <tarfileset dir="release" filemode="755">
+                <include name="Acerola3D_Libraries/A3Viewer.command"/>
+                <include name="Acerola3D_Libraries/Terminal.command"/>
+                <include name="Acerola3D_Libraries/a3shell.sh"/>
+            </tarfileset>
+            <tarfileset dir="release">
+                <include name="Acerola3D_Libraries/**"/>
+                <exclude name="Acerola3D_Libraries/A3Viewer.command"/>
+                <exclude name="Acerola3D_Libraries/Terminal.command"/>
+                <exclude name="Acerola3D_Libraries/a3shell.sh"/>
+            </tarfileset>
+        </tar>
+        <zip destfile="../Acerola3D_Libraries_${version}.zip">
+            <tarfileset src="../Acerola3D_Libraries_${version}.tar"/>
+        </zip>
+        <delete file="../Acerola3D_Libraries_${version}.tar"/>
+        <delete includeEmptyDirs="true">
+            <fileset dir="release/Acerola3D_Libraries/">
+                <include name="**"/>
+                <exclude name="A3Viewer32.bat"/>
+                <exclude name="A3Viewer64.bat"/>
+                <exclude name="A3Viewer.command"/>
+                <exclude name="CommandPrompt32.bat"/>
+                <exclude name="CommandPrompt64.bat"/>
+                <exclude name="Terminal.command"/>
+                <exclude name="a3shell.sh"/>
+                <exclude name="a3files"/>
+                <exclude name="a3files/axis.a3"/>
+                <exclude name="acerola3d.jnlp"/>
+                <exclude name="acerola3dIcon.png"/>
+                <exclude name="bin"/>
+                <exclude name="bin/sign_all.bat"/>
+                <exclude name="bin/sign_all.sh"/>
+                <exclude name="bin/unsign_all.bat"/>
+                <exclude name="bin/unsign_all.sh"/>
+                <exclude name="bin/manifest"/>
+                <exclude name="bin/JNLP-INF"/>
+                <exclude name="bin/JNLP-INF/APPLICATION_TEMPLATE.JNLP"/>
+                <exclude name="test"/>
+                <exclude name="test/Test.java"/>
+            </fileset>
+        </delete>
+    </target>
+
+    <target name="src-package" depends="version-input,distclean">
+        <tar destfile="../acerola3d-src-${version}.tar.gz"
+             compression="gzip">
+            <tarfileset dir="..">
+                <include name="acerola3d/**"/>
+                <exclude name="acerola3d/lib/A3DepLibs/**"/>
+                <exclude name="acerola3d/lib/java3d/*.jar"/>
+                <exclude name="acerola3d/lib/jaxb/*.jar"/>
+                <exclude name="acerola3d/lib/*.jar"/>
+            </tarfileset>
+        </tar>
+    </target>
+</project>

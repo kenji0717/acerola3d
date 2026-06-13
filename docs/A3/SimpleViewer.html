@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="ja">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>SimpleViewer</title>
+    <style>
+    </style>
+    <script type="importmap">
+     {
+       "imports": {
+         "three": "https://cdn.jsdelivr.net/npm/three@latest/build/three.module.min.js",
+         "three/addons/": "https://cdn.jsdelivr.net/npm/three@latest/examples/jsm/",
+         "@dimforge/rapier3d-compat": "https://cdn.jsdelivr.net/npm/@dimforge/rapier3d-compat@0.19.3/+esm",
+         "fflate": "https://cdn.jsdelivr.net/npm/fflate@0.8.2/+esm",
+         "meshoptimizer": "https://unpkg.com/meshoptimizer@1.0.1/meshopt_decoder.module.js",
+         "a3js": "https://cdn.jsdelivr.net/npm/a3js@1/+esm"
+       }
+     }
+    </script>
+    <!-- "a3js": "https://cdn.jsdelivr.net/npm/a3js@latest/+esm" -->
+    <!-- "a3js": "a3js": "../dist/a3js.es.js" -->
+    <script type="module">
+     import * as a3 from 'a3js';
+
+     async function init(a3_file_name) {
+       localStorage.setItem('a3js_simple_viewer',a3_file_name);
+       // body要素を空にする
+       while(document.body.firstChild) document.body.removeChild(document.body.firstChild);
+
+       let list = (await (await fetch('./list.csv')).text()).split('\n');
+       list = list.map((l)=>l.trim());
+       list = list.filter((l)=>l !== "");
+
+       const p1 = document.createElement('p');
+       document.body.appendChild(p1);
+       p1.textContent = 'file: ';
+       const select = document.createElement('select');
+       select.setAttribute('id','a3file_list');
+       for (const file of list) {
+         const option = document.createElement('option');
+         option.textContent = file;
+         option.setAttribute('value',file);
+         select.appendChild(option);
+       }
+       select.value = a3_file_name;
+       p1.appendChild(select);
+       select.addEventListener('change',(e)=>{
+         localStorage.setItem('a3js_simple_viewer',e.target.value);
+         location.reload();
+       });
+
+       const p2 = document.createElement('p');
+       document.body.appendChild(p2);
+       p2.textContent = 'state: ';
+       const select2 = document.createElement('select');
+       select2.setAttribute('id','state_list');
+       p2.appendChild(select2);
+
+       const p3 = document.createElement('p');
+       document.body.appendChild(p3);
+       p3.textContent = 'emote: ';
+       const select3 = document.createElement('select');
+       select3.setAttribute('id','emote_list');
+       p3.appendChild(select3);
+
+       const view = new a3.Canvas();
+       view.style.cssText = 'width:600px;height:300px;';
+       document.body.appendChild(view);
+       await view.alert('音声の再生を許可して下さい。',a3.initSound);
+       const obj = await new a3.Acerola3D(`./${file}`).ready;
+       view.scene.add(obj);
+
+       const actionNames = obj.getActionNames();
+       for (const name of actionNames) {
+         const option = document.createElement('option');
+         option.textContent = name;
+         option.setAttribute('value',name);
+         select2.appendChild(option);
+       }
+       select2.addEventListener('change',(e)=>{
+         obj.setState(e.target.value);
+       });
+
+       for (const name of actionNames) {
+         const option = document.createElement('option');
+         option.textContent = name;
+         option.setAttribute('value',name);
+         select3.appendChild(option);
+       }
+       select3.addEventListener('change',(e)=>{
+         obj.setEmote(e.target.value);
+       });
+
+       const pre = document.createElement('pre');
+       document.body.appendChild(pre);
+       pre.style.cssTest = 'border: solid;';
+       pre.textContent = obj.comment;
+     }
+
+     const ls = localStorage.getItem('a3js_simple_viewer');
+     const file = ls?ls:'axis.a3';
+     await init(file);
+    </script>
+  </head>
+  <body>
+  </body>
+</html>

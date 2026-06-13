@@ -1,0 +1,24 @@
+環境変数のJAVA3D_JARDIR_PATHとJAVA3D_LIBRARY_PATHで
+Java3Dのライブラリのフォルダを指定していなければ、
+このlibフォルダにあるjava3dフォルダの中にJava3Dの
+ライブラリ(JARファイルとDLLなどのネイティブなライブラリ)を
+入れてください。
+
+環境変数のJAXB_JARDIR_PATHでJAXBライブラリのフォルダを
+指定していなければ、このlibフォルダにあるjaxbフォルダの
+中にJAXBのライブラリ(jaxb-xjc.jarなど)を入れてください。
+
+さらに、Java Web Start,Windows,Mac OS X,Linuxのバイナリ
+パッケージを作成するには、このlibフォルダの中に自分で
+以下のようなフォルダを作成して、Acerola3Dのページで
+提供しているAcerola3Dが依存するライブラリのパッケージを
+解凍したものをそのまま配置してください。
+
+* Java Web Start
+    + A3DepLibsJWS
+* Windows
+    + A3DepLibsWindows
+* Mac OS X
+    + A3DepLibsMacOSX
+* Linux
+    + A3DepLibsLinux

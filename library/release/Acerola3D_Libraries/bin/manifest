@@ -1,0 +1,4 @@
+Application-Name: acerola3d
+Permissions: all-permissions
+Codebase: *.foo.bar.org
+Trusted-Library: true

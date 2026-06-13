@@ -1,0 +1,175 @@
+Package jp.sourceforge.acerola3d.a3.bvh;
+
+Helpers
+ letter =
+  [0x0041..0x005a] | [0x0061..0x007a] | //半角英字
+  [0x3041..0x309f] | [0x30fc..0x30fc] | //ひらがな
+  [0x30a0..0x30ff] | [0x31f0..0x31ff] | [0x3099..0x309c] | //カタカナ
+  [0x4e00..0x9fcf] | [0xf900..0xfaff] | [0x3400..0x4dbf] | //漢字(CJK)
+  [0xff65..0xff9f] | //半角カタカナ
+  ['Ａ'..'Ｚ'] | ['ａ'..'ｚ'] ; //全角英字
+ digit = ['0'..'9'];
+ digit2 = ['０'..'９'];
+ under_bar = '_';
+ decimal = ('+' | '-')? digit*;
+ exponent_part = ('e' | 'E') ('+' | '-')? digit+;
+ floating_point = ('+' | '-')? digit+ '.' digit* exponent_part? |
+                  ('+' | '-')? '.' digit+ exponent_part?;
+ ht = 0x0009;
+ lf = 0x000a;
+ cr = 0x000d;
+ sp = ' ';
+
+Tokens
+ hierarchy = 'HIERARCHY';
+ root = 'ROOT';
+ offset = 'OFFSET';
+ channels = 'CHANNELS';
+ joint = 'JOINT';
+ x_position = 'Xposition';
+ y_position = 'Yposition';
+ z_position = 'Zposition';
+ x_rotation = 'Xrotation';
+ y_rotation = 'Yrotation';
+ z_rotation = 'Zrotation';
+ x_scale = 'Xscale';
+ y_scale = 'Yscale';
+ z_scale = 'Zscale';
+ end_site = 'End Site';
+ l_brace = '{';
+ r_brace = '}';
+ motion = 'MOTION';
+ frames = 'Frames:';
+ frame_time = 'Frame Time:';
+
+ identifier = (letter | '.' | '_') (letter | digit | digit2 | '.' | '_')*;
+
+ integer = decimal;
+
+ real_number = floating_point;
+
+ blank = (sp|lf|cr|ht)*;
+
+Ignored Tokens
+ blank;
+
+Productions
+ bvh =
+  hierarchy_part motion_part;
+
+ hierarchy_part =
+  hierarchy root_block;
+
+ root_block =
+  root identifier l_brace offset_line channels_line super_block+ r_brace;
+
+ offset_line =
+  offset [x_offset]:number [y_offset]:number [z_offset]:number;
+
+ number =
+  {integer} integer |
+  {real_number} real_number;
+
+ channels_line =
+  channels integer channel_type*;
+
+ channel_type =
+  {x_position} x_position |
+  {y_position} y_position |
+  {z_position} z_position |
+  {x_rotation} x_rotation |
+  {y_rotation} y_rotation |
+  {z_rotation} z_rotation |
+  {x_scale} x_scale |
+  {y_scale} y_scale |
+  {z_scale} z_scale;
+
+ super_block =
+  {joint} joint_block |
+  {end_site} end_site_block;
+
+ joint_block =
+  joint identifier l_brace offset_line channels_line super_block+ r_brace;
+
+ end_site_block =
+  end_site l_brace offset_line r_brace;
+
+/*
+ここから下がモーションパート．
+最後の数字の羅列の部分はnumber*
+で良いところなのだが，SableCC2.18.2では
+問題無いものの，SableCC3.2だととてつもなく
+重くなってしまう．なので2.18.2で行くことにする．
+*/
+
+ motion_part =
+  motion
+   frames_line
+   frame_time_line
+   number*;
+
+ frames_line =
+  frames integer;
+
+ frame_time_line =
+  frame_time number;
+
+/*
+でも，SableCC3.2でも重くならない文法も考えてみた．
+非常に汚い方法で，以下のようにしてしのぐことができる．
+やってみたら，動くようになったけど生成される
+ソースコードが膨れるし，2.18.2だとshift/reduce conflict
+って言われるようになってしまった．しかもAcerola3Dの
+ParseBVH.javaのコードもとてつもなく汚いコードになる．
+でも，忘れてまた同じことをやったりしないように
+以下の文法はコメントアウトして取っておく．
+*/
+
+/*
+ motion_part =
+  motion
+   frames_line
+   frame_time_line
+   number64*
+   number32?
+   number16?
+   number8?
+   number4?
+   number2?
+   number?;
+
+ frames_line =
+  frames integer;
+
+ frame_time_line =
+  frame_time number;
+
+ number64 =
+  [n01]:number [n02]:number [n03]:number [n04]:number [n05]:number [n06]:number [n07]:number [n08]:number [n09]:number [n10]:number
+  [n11]:number [n12]:number [n13]:number [n14]:number [n15]:number [n16]:number [n17]:number [n18]:number [n19]:number [n20]:number
+  [n21]:number [n22]:number [n23]:number [n24]:number [n25]:number [n26]:number [n27]:number [n28]:number [n29]:number [n30]:number
+  [n31]:number [n32]:number [n33]:number [n34]:number [n35]:number [n36]:number [n37]:number [n38]:number [n39]:number [n40]:number
+  [n41]:number [n42]:number [n43]:number [n44]:number [n45]:number [n46]:number [n47]:number [n48]:number [n49]:number [n50]:number
+  [n51]:number [n52]:number [n53]:number [n54]:number [n55]:number [n56]:number [n57]:number [n58]:number [n59]:number [n60]:number
+  [n61]:number [n62]:number [n63]:number [n64]:number;
+
+ number32 =
+  [n01]:number [n02]:number [n03]:number [n04]:number [n05]:number [n06]:number [n07]:number [n08]:number [n09]:number [n10]:number
+  [n11]:number [n12]:number [n13]:number [n14]:number [n15]:number [n16]:number [n17]:number [n18]:number [n19]:number [n20]:number
+  [n21]:number [n22]:number [n23]:number [n24]:number [n25]:number [n26]:number [n27]:number [n28]:number [n29]:number [n30]:number
+  [n31]:number [n32]:number;
+
+ number16 =
+  [n01]:number [n02]:number [n03]:number [n04]:number [n05]:number [n06]:number [n07]:number [n08]:number [n09]:number [n10]:number
+  [n11]:number [n12]:number [n13]:number [n14]:number [n15]:number [n16]:number;
+
+ number8 =
+  [n01]:number [n02]:number [n03]:number [n04]:number [n05]:number [n06]:number [n07]:number [n08]:number;
+
+ number4 =
+  [n01]:number [n02]:number [n03]:number [n04]:number;
+
+ number2 =
+  [n01]:number [n02]:number;
+
+*/

@@ -1,0 +1,19 @@
+HIERARCHY
+ROOT BSRootBone
+{
+  OFFSET 0.0 0.0 0.0
+  CHANNELS 3 Zrotation Xrotation Yrotation
+  JOINT Bone
+  {
+    OFFSET 0.000000 0.000000 0.000000
+    CHANNELS 3 Zrotation Xrotation Yrotation
+    End Site
+    {
+      OFFSET 1.000000 -0.000000 0.000000
+    }
+  }
+}
+MOTION
+Frames: 1
+Frame Time: 0.0333
+0.0 0.0 0.0 0.000000 0.000000 -0.000000 

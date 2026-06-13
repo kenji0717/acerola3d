@@ -1,0 +1,434 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://web.resource.org/cc/"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   width="708.66138"
+   height="531.49603"
+   id="svg2"
+   sodipodi:version="0.32"
+   inkscape:version="0.44.1"
+   version="1.0"
+   sodipodi:docbase="/home/ksaito/tmp9"
+   sodipodi:docname="Action3DData.svg">
+  <defs
+     id="defs4" />
+  <sodipodi:namedview
+     id="base"
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1.0"
+     gridtolerance="10000"
+     guidetolerance="10"
+     objecttolerance="10"
+     inkscape:pageopacity="0.0"
+     inkscape:pageshadow="2"
+     inkscape:zoom="1.041084"
+     inkscape:cx="343.61209"
+     inkscape:cy="269.54392"
+     inkscape:document-units="px"
+     inkscape:current-layer="layer1"
+     width="20cm"
+     height="15cm"
+     units="cm"
+     inkscape:window-width="1014"
+     inkscape:window-height="712"
+     inkscape:window-x="0"
+     inkscape:window-y="0" />
+  <metadata
+     id="metadata7">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <g
+     inkscape:label="Layer 1"
+     inkscape:groupmode="layer"
+     id="layer1">
+    <rect
+       id="rect1872"
+       width="637.81848"
+       height="452.83701"
+       x="36.724133"
+       y="15.842934"
+       style="fill:none;fill-opacity:1;stroke:black;stroke-width:1.49782741;stroke-opacity:1"
+       ry="0" />
+    <flowRoot
+       xml:space="preserve"
+       id="flowRoot2760"
+       transform="translate(-14.32955,-48.23761)"><flowRegion
+         id="flowRegion2762"><rect
+           id="rect2764"
+           width="122.45251"
+           height="20.842981"
+           x="54.712826"
+           y="66.437004" /></flowRegion><flowPara
+         id="flowPara2766">Action3DData</flowPara></flowRoot>    <rect
+       style="fill:none;fill-opacity:1;stroke:black;stroke-width:1.42617548;stroke-opacity:1"
+       id="rect3653"
+       width="306.23077"
+       height="282.32532"
+       x="49.715168"
+       y="169.58502" />
+    <flowRoot
+       xml:space="preserve"
+       id="flowRoot3655"
+       transform="translate(0,86)"><flowRegion
+         id="flowRegion3657"><rect
+           id="rect3659"
+           width="121.14983"
+           height="24.751041"
+           x="58.620888"
+           y="96.398788" /></flowRegion><flowPara
+         id="flowPara3661">actions (Action[])</flowPara></flowRoot>    <rect
+       style="fill:none;fill-opacity:1;stroke:black;stroke-width:1.77797234;stroke-opacity:1"
+       id="rect3663"
+       width="282.9639"
+       height="112.83963"
+       x="60.312561"
+       y="214.05225" />
+    <flowRoot
+       xml:space="preserve"
+       id="flowRoot3665"
+       transform="translate(0,82)"><flowRegion
+         id="flowRegion3667"><rect
+           id="rect3669"
+           width="103.95127"
+           height="16.934923"
+           x="65.134315"
+           y="134.1767" /></flowRegion><flowPara
+         id="flowPara3671">action (Action)</flowPara></flowRoot>    <flowRoot
+       xml:space="preserve"
+       id="flowRoot3673"
+       transform="translate(0,-30)"><flowRegion
+         id="flowRegion3675"><rect
+           id="rect3677"
+           width="263.57684"
+           height="140.35495"
+           x="46.896709"
+           y="69.042374" /></flowRegion><flowPara
+         id="flowPara3679">* url (URL)</flowPara><flowPara
+         id="flowPara3681">* comment (String)</flowPara><flowPara
+         id="flowPara3694">* defaultActionNo (int)</flowPara><flowPara
+         id="flowPara3696">* walkActionNo (int)</flowPara><flowPara
+         id="flowPara3748">* runActionNo (int)</flowPara><flowPara
+         id="flowPara3750">* minWalkSpeed (double)</flowPara><flowPara
+         id="flowPara3752">* minRunSpeed (double)</flowPara><flowPara
+         id="flowPara3754">* actionNo (int)</flowPara></flowRoot>    <rect
+       style="fill:none;fill-opacity:1;stroke:black;stroke-width:1.14323652;stroke-opacity:1"
+       id="rect3700"
+       width="285.52597"
+       height="109.29501"
+       x="379.15335"
+       y="111.62744" />
+    <rect
+       style="fill:none;fill-opacity:1;stroke:black;stroke-width:1.49203444;stroke-opacity:1"
+       id="rect3702"
+       width="284.40775"
+       height="107.32658"
+       x="379.23578"
+       y="229.55702" />
+    <rect
+       style="fill:none;fill-opacity:1;stroke:black;stroke-width:1.48934019;stroke-opacity:1"
+       id="rect3704"
+       width="283.37439"
+       height="107.32928"
+       x="378.72104"
+       y="345.32925" />
+    <flowRoot
+       xml:space="preserve"
+       id="flowRoot3706"
+       transform="translate(0,36)"><flowRegion
+         id="flowRegion3708"><rect
+           id="rect3710"
+           width="267.96487"
+           height="30.228418"
+           x="390.80591"
+           y="83.371925" /></flowRegion><flowPara
+         id="flowPara3712">shapes (HashMap&lt;String,SharedGroup&gt; )</flowPara></flowRoot>    <flowRoot
+       xml:space="preserve"
+       id="flowRoot3714"
+       transform="translate(0,30)"><flowRegion
+         id="flowRegion3716"><rect
+           id="rect3718"
+           width="248.43219"
+           height="33.778431"
+           x="393.41129"
+           y="207.12714" /></flowRegion><flowPara
+         id="flowPara3720">motions (HashMap&lt;String,Motion&gt;)</flowPara></flowRoot>    <flowRoot
+       xml:space="preserve"
+       id="flowRoot3722"
+       transform="translate(0,46)"><flowRegion
+         id="flowRegion3724"><rect
+           id="rect3726"
+           width="277.0383"
+           height="30.242992"
+           x="386.89786"
+           y="306.13129" /></flowRegion><flowPara
+         id="flowPara3728">sounds (HashMap&lt;String,MediaContainer&gt;)</flowPara></flowRoot>    <flowRoot
+       xml:space="preserve"
+       id="flowRoot3736"><flowRegion
+         id="flowRegion3738"><rect
+           id="rect3740"
+           width="639.24573"
+           height="37.297966"
+           x="36.261913"
+           y="480.72937" /></flowRegion><flowPara
+         id="flowPara3742">* kakkononakaha kurasu mataha de-ta no kata.</flowPara><flowPara
+         id="flowPara3744">* iroiro setsumei.</flowPara><flowPara
+         id="flowPara3746" /></flowRoot>    <g
+       id="g5532">
+      <path
+         transform="translate(0.194772,0)"
+         d="M 21.757148 209.80107 A 4.6622458 4.6622458 0 1 1  12.432656,209.80107 A 4.6622458 4.6622458 0 1 1  21.757148 209.80107 z"
+         sodipodi:ry="4.6622458"
+         sodipodi:rx="4.6622458"
+         sodipodi:cy="209.80107"
+         sodipodi:cx="17.094902"
+         id="path3756"
+         style="fill:black;fill-opacity:1;stroke:black;stroke-opacity:1"
+         sodipodi:type="arc" />
+      <path
+         transform="translate(0.194773,41.21806)"
+         d="M 21.757148 209.80107 A 4.6622458 4.6622458 0 1 1  12.432656,209.80107 A 4.6622458 4.6622458 0 1 1  21.757148 209.80107 z"
+         sodipodi:ry="4.6622458"
+         sodipodi:rx="4.6622458"
+         sodipodi:cy="209.80107"
+         sodipodi:cx="17.094902"
+         id="path5528"
+         style="fill:black;fill-opacity:1;stroke:black;stroke-opacity:1"
+         sodipodi:type="arc" />
+      <path
+         transform="translate(0.194772,20.60904)"
+         d="M 21.757148 209.80107 A 4.6622458 4.6622458 0 1 1  12.432656,209.80107 A 4.6622458 4.6622458 0 1 1  21.757148 209.80107 z"
+         sodipodi:ry="4.6622458"
+         sodipodi:rx="4.6622458"
+         sodipodi:cy="209.80107"
+         sodipodi:cx="17.094902"
+         id="path5530"
+         style="fill:black;fill-opacity:1;stroke:black;stroke-opacity:1"
+         sodipodi:type="arc" />
+    </g>
+    <g
+       id="g5537"
+       transform="matrix(0.64592,0,0,0.64592,184.7962,278.4513)">
+      <path
+         transform="translate(0.194772,0)"
+         d="M 21.757148 209.80107 A 4.6622458 4.6622458 0 1 1  12.432656,209.80107 A 4.6622458 4.6622458 0 1 1  21.757148 209.80107 z"
+         sodipodi:ry="4.6622458"
+         sodipodi:rx="4.6622458"
+         sodipodi:cy="209.80107"
+         sodipodi:cx="17.094902"
+         id="path5539"
+         style="fill:black;fill-opacity:1;stroke:black;stroke-opacity:1"
+         sodipodi:type="arc" />
+      <path
+         transform="translate(0.194773,41.21806)"
+         d="M 21.757148 209.80107 A 4.6622458 4.6622458 0 1 1  12.432656,209.80107 A 4.6622458 4.6622458 0 1 1  21.757148 209.80107 z"
+         sodipodi:ry="4.6622458"
+         sodipodi:rx="4.6622458"
+         sodipodi:cy="209.80107"
+         sodipodi:cx="17.094902"
+         id="path5541"
+         style="fill:black;fill-opacity:1;stroke:black;stroke-opacity:1"
+         sodipodi:type="arc" />
+      <path
+         transform="translate(0.194772,20.60904)"
+         d="M 21.757148 209.80107 A 4.6622458 4.6622458 0 1 1  12.432656,209.80107 A 4.6622458 4.6622458 0 1 1  21.757148 209.80107 z"
+         sodipodi:ry="4.6622458"
+         sodipodi:rx="4.6622458"
+         sodipodi:cy="209.80107"
+         sodipodi:cx="17.094902"
+         id="path5543"
+         style="fill:black;fill-opacity:1;stroke:black;stroke-opacity:1"
+         sodipodi:type="arc" />
+    </g>
+    <rect
+       style="fill:none;fill-opacity:1;stroke:black;stroke-width:1.00421941;stroke-opacity:1"
+       id="rect5545"
+       width="277.01389"
+       height="36.770397"
+       x="382.58453"
+       y="138.70448" />
+    <rect
+       style="fill:none;fill-opacity:1;stroke:black;stroke-width:1.00421941;stroke-opacity:1"
+       id="rect5547"
+       width="277.01389"
+       height="36.770397"
+       x="381.14374"
+       y="258.0546" />
+    <rect
+       style="fill:none;fill-opacity:1;stroke:black;stroke-width:1.00421941;stroke-opacity:1"
+       id="rect5549"
+       width="277.01389"
+       height="36.770397"
+       x="382.10428"
+       y="374.91101" />
+    <g
+       id="g5551"
+       transform="matrix(0.64592,0,0,0.64592,510.404,283.7342)">
+      <path
+         transform="translate(0.194772,0)"
+         d="M 21.757148 209.80107 A 4.6622458 4.6622458 0 1 1  12.432656,209.80107 A 4.6622458 4.6622458 0 1 1  21.757148 209.80107 z"
+         sodipodi:ry="4.6622458"
+         sodipodi:rx="4.6622458"
+         sodipodi:cy="209.80107"
+         sodipodi:cx="17.094902"
+         id="path5553"
+         style="fill:black;fill-opacity:1;stroke:black;stroke-opacity:1"
+         sodipodi:type="arc" />
+      <path
+         transform="translate(0.194773,41.21806)"
+         d="M 21.757148 209.80107 A 4.6622458 4.6622458 0 1 1  12.432656,209.80107 A 4.6622458 4.6622458 0 1 1  21.757148 209.80107 z"
+         sodipodi:ry="4.6622458"
+         sodipodi:rx="4.6622458"
+         sodipodi:cy="209.80107"
+         sodipodi:cx="17.094902"
+         id="path5555"
+         style="fill:black;fill-opacity:1;stroke:black;stroke-opacity:1"
+         sodipodi:type="arc" />
+      <path
+         transform="translate(0.194772,20.60904)"
+         d="M 21.757148 209.80107 A 4.6622458 4.6622458 0 1 1  12.432656,209.80107 A 4.6622458 4.6622458 0 1 1  21.757148 209.80107 z"
+         sodipodi:ry="4.6622458"
+         sodipodi:rx="4.6622458"
+         sodipodi:cy="209.80107"
+         sodipodi:cx="17.094902"
+         id="path5557"
+         style="fill:black;fill-opacity:1;stroke:black;stroke-opacity:1"
+         sodipodi:type="arc" />
+    </g>
+    <g
+       id="g5559"
+       transform="matrix(0.64592,0,0,0.64592,502.7197,167.9559)">
+      <path
+         transform="translate(0.194772,0)"
+         d="M 21.757148 209.80107 A 4.6622458 4.6622458 0 1 1  12.432656,209.80107 A 4.6622458 4.6622458 0 1 1  21.757148 209.80107 z"
+         sodipodi:ry="4.6622458"
+         sodipodi:rx="4.6622458"
+         sodipodi:cy="209.80107"
+         sodipodi:cx="17.094902"
+         id="path5561"
+         style="fill:black;fill-opacity:1;stroke:black;stroke-opacity:1"
+         sodipodi:type="arc" />
+      <path
+         transform="translate(0.194773,41.21806)"
+         d="M 21.757148 209.80107 A 4.6622458 4.6622458 0 1 1  12.432656,209.80107 A 4.6622458 4.6622458 0 1 1  21.757148 209.80107 z"
+         sodipodi:ry="4.6622458"
+         sodipodi:rx="4.6622458"
+         sodipodi:cy="209.80107"
+         sodipodi:cx="17.094902"
+         id="path5563"
+         style="fill:black;fill-opacity:1;stroke:black;stroke-opacity:1"
+         sodipodi:type="arc" />
+      <path
+         transform="translate(0.194772,20.60904)"
+         d="M 21.757148 209.80107 A 4.6622458 4.6622458 0 1 1  12.432656,209.80107 A 4.6622458 4.6622458 0 1 1  21.757148 209.80107 z"
+         sodipodi:ry="4.6622458"
+         sodipodi:rx="4.6622458"
+         sodipodi:cy="209.80107"
+         sodipodi:cx="17.094902"
+         id="path5565"
+         style="fill:black;fill-opacity:1;stroke:black;stroke-opacity:1"
+         sodipodi:type="arc" />
+    </g>
+    <g
+       id="g5567"
+       transform="matrix(0.64592,0,0,0.64592,508.483,49.08604)">
+      <path
+         transform="translate(0.194772,0)"
+         d="M 21.757148 209.80107 A 4.6622458 4.6622458 0 1 1  12.432656,209.80107 A 4.6622458 4.6622458 0 1 1  21.757148 209.80107 z"
+         sodipodi:ry="4.6622458"
+         sodipodi:rx="4.6622458"
+         sodipodi:cy="209.80107"
+         sodipodi:cx="17.094902"
+         id="path5569"
+         style="fill:black;fill-opacity:1;stroke:black;stroke-opacity:1"
+         sodipodi:type="arc" />
+      <path
+         transform="translate(0.194773,41.21806)"
+         d="M 21.757148 209.80107 A 4.6622458 4.6622458 0 1 1  12.432656,209.80107 A 4.6622458 4.6622458 0 1 1  21.757148 209.80107 z"
+         sodipodi:ry="4.6622458"
+         sodipodi:rx="4.6622458"
+         sodipodi:cy="209.80107"
+         sodipodi:cx="17.094902"
+         id="path5571"
+         style="fill:black;fill-opacity:1;stroke:black;stroke-opacity:1"
+         sodipodi:type="arc" />
+      <path
+         transform="translate(0.194772,20.60904)"
+         d="M 21.757148 209.80107 A 4.6622458 4.6622458 0 1 1  12.432656,209.80107 A 4.6622458 4.6622458 0 1 1  21.757148 209.80107 z"
+         sodipodi:ry="4.6622458"
+         sodipodi:rx="4.6622458"
+         sodipodi:cy="209.80107"
+         sodipodi:cx="17.094902"
+         id="path5573"
+         style="fill:black;fill-opacity:1;stroke:black;stroke-opacity:1"
+         sodipodi:type="arc" />
+    </g>
+    <rect
+       style="fill:none;fill-opacity:1;stroke:black;stroke-width:0.71961379;stroke-opacity:1"
+       id="rect5575"
+       width="306.93735"
+       height="71.713669"
+       x="350.81342"
+       y="27.857525" />
+    <flowRoot
+       xml:space="preserve"
+       id="flowRoot5577"
+       transform="translate(322.4395,7.781812)"><flowRegion
+         id="flowRegion5579"><rect
+           id="rect5581"
+           width="180.79425"
+           height="24.619221"
+           x="65.134315"
+           y="134.1767" /></flowRegion><flowPara
+         id="flowPara5583">shape (SharedGroup)</flowPara></flowRoot>    <flowRoot
+       xml:space="preserve"
+       id="flowRoot5585"
+       transform="translate(319.5578,125.9279)"><flowRegion
+         id="flowRegion5587"><rect
+           id="rect5589"
+           width="250.91348"
+           height="19.816536"
+           x="65.134315"
+           y="134.1767" /></flowRegion><flowPara
+         id="flowPara5591">motion (Motion)</flowPara></flowRoot>    <flowRoot
+       xml:space="preserve"
+       id="flowRoot5593"
+       transform="translate(321.4789,244.074)"><flowRegion
+         id="flowRegion5595"><rect
+           id="rect5597"
+           width="241.30811"
+           height="18.855997"
+           x="65.134315"
+           y="134.1767" /></flowRegion><flowPara
+         id="flowPara5599">sound (MediaContainer)</flowPara></flowRoot>    <flowRoot
+       xml:space="preserve"
+       id="flowRoot5601"
+       transform="translate(295.5444,-100.7589)"><flowRegion
+         id="flowRegion5603"><rect
+           id="rect5605"
+           width="175.03104"
+           height="25.57976"
+           x="65.134315"
+           y="134.1767" /></flowRegion><flowPara
+         id="flowPara5607">J3D Trees</flowPara></flowRoot>    <rect
+       style="fill:none;fill-opacity:1;stroke:black;stroke-width:1.36271203;stroke-opacity:1"
+       id="rect5609"
+       width="283.37915"
+       height="66.18856"
+       x="59.062725"
+       y="335.11041" />
+  </g>
+</svg>

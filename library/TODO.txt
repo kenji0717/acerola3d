@@ -1,0 +1,471 @@
+---------------------------------------------------------------------
+* Action3D.transControlUsingRootBone(boolean b)
+  のサンプルがない．
+* Uti.makeBvhTriangleMeshShapeとUtil.makeConvexHullShape
+  のサンプルが無い．
+* チケット23701のバグを確認できるサンプルがない．
+  (2010,11-26-2)
+* A3ObjectのaddLoc()，mulQuat()，getTargetLoc()などの
+  サンプルプログラムがない．
+* A3CanvasInterface.addCameraLoc()などのサンプルがない．
+* A3Object.getUnitVecXのサンプルがない．
+* A3CanvasInterface.getCameraUnitVecXのサンプルがない．
+---------------------------------------------------------------------
+* JA3Canvas2を十分テストしてJA3Canvasと置き換える。
+  さらにTransCanvas3Dの名前を適切な物に変更。
+* 各種モデルのローダの件、整理してドキュメントを書け。
+* Action3D.transControlUsingRootBone(boolean b)
+  の機能をCHASEナビゲーションと一緒に使うとダメみたい
+  なので調査．
+* (2010,10/23)のLockedでaddした物をデタッチして
+  Lockedでない方法でaddした時に対応していない問題．
+* ドキュメントにaddLoc,addCameraLocの説明がぜんぜんない．
+---------------------------------------------------------------------
+(2010,11/08)いまさらなんだけど，今まで以下のような単純な視点で
+見ていなかったのでメモしておく．
+
+* Acerola3Dのもともとの構成は，仮想空間もカメラも必ず一つずつ
+  だったので，A3Windowのような1つのオブジェクトに，仮想空間とカメラの
+  機能の両方を持たせても，あまり不自然ではないし混乱もしなかった．
+* 複数のシーン(仮想空間)を扱えるようにし，複数のカメラを一つの
+  シーンに接続するなどの拡張をしたために，無理が生じている．
+
+当然，拡張する時点で気がついてはいたけど，以外と上手くいっていたので
+Aloreca3D(Acerola3d Ver3)でもそのままで行くつもりになっていた．
+でも先日A3CanvasInterfaceにaddCameraLocなどの相対的な操作を
+するためのメソッドを追加する作業をしていてやっぱりだめかなと
+思った．
+
+今までのAcerola3Dは，基本的にA3CanvasInterfaceとA3Objectという
+2つの構成要素だけで成り立っているというのが，わかりやすさの
+ポイントだったけど，Aloreca3D(Acerola3d Ver3)では
+シーン，カメラ(キャンバス付き)，オブジェクトの
+3つの構成要素にすべきかもしれない．構成要素が3つぐらいなら
+きっと大丈夫だと思うし，コードが大幅に整理されるのは確実だと
+思う(下で論じたInterfaceの部分なんかは悩まなくてすむかも．．．)．
+物理エンジンを組込むぐらいの改良をするつもりなら，
+ついでにこのぐらいやっても良いだろう．それから，これもメモ
+してなかったけど，Java3Dのピッキングや衝突判定を全てOFFにして
+JBulletだけで，そのへんまかなうってのもAloreca3Dの目標にしよう．
+---------------------------------------------------------------------
+* AC3D
+    + カレントフォルダからのパス？なんとかしたい．
+* BSP
+    + modelとtexBaseはパス？なんとかしたい．
+    + コンストラクタの改良をしたい．
+* COLLADA
+    + 特になし？
+* LightWave
+    + ファイルのパス？なんとかしたい．
+    + アニメーションのコントロールを付ける
+* Max3DS
+    + アニメーションのコントロールを付ける
+* MD2
+    + コンストラクタを改良する？
+    + アニメーションのスピードどうする？
+    + アニメーションのコントロールを付ける
+* MD3
+    + 「CLASSPATHから探す」って明記
+    + ファイルをコピーしておかないといけない点を明記
+    + アニメーションのスピードどうする？
+    + ActionObject対応にする？
+* Metasequoia
+    + 特になし？
+    + 一応w.setDepthBufferFreezeTransparent(false);の件
+      明記
+* MilkShape3D
+    + メソッドの説明
+    + アニメーション情報を手動で入れて
+      ActionObject対応にする？
+* NWN
+    + setDefaultAnimations(String s[])
+    + ActionObject対応にする？
+* Wavefront
+    + ファイルのパス？なんとかしたい．
+* X3D
+    + 特になし？
+
+---------------------------------------------------------------------
+(*--)各種Java3Dローダを組込む．
+     Neverwinter Nights(MDL)
+     Quake 3(MD3)
+     Quake 2(MD2)
+     Max3DS(3DS)
+     Metasequoia
+     MilkShape3D
+     LightWave(lws)
+     Wavefont(Obj)
+     AC3D
+     Quake 2背景データ(BSP)
+---------------------------------------------------------------------
+(**-)2010,03/01．Utilクラスに四元数関係のメソッドを集約してリファクタリングした。
+     一応上手くいっているようだが、バグが残っていないともかぎらないので随時チェックすること。
+---------------------------------------------------------------------
+(---)自前実装のサウンドに、位置のオフセットが適用されていないはず。
+     確認しておけ。それとY軸が上かZ軸が上かも考慮されていないはず．
+     これも確認．
+---------------------------------------------------------------------
+(**-)BranchGroup.compileが実行されていると失敗するサンプル．
+     46,80,81
+     たぶん大丈夫になったけど、テストすること。
+---------------------------------------------------------------------
+(---)もう一度Intefaceの勉強をしてみたら，publicでないInterface
+     というものが作成可能であることが判明．細かい機能に分けて
+     publicでないInterfaceをたくさん用意しておいて，その中から
+     必要なInterfaceを多重継承させて実際に使用するpublicな
+     Interfaceを宣言するのが良いみたい．javadocもpublicでない
+     Interfaceにコメントを書いておけばpublicなInterfaceや
+     その実装にも表示してくれるので問題なし．さらに，
+     Interfaceの多重継承とか複数のInterfaceを実装するクラスで
+     メソッドが重複するのは問題ない．(メンバ変数の重複はダメだけど．)
+     だから，A3Windowなどはメソッドが重複するのを気にせず，必要なだけ
+     多数のInterfaceをimplementsで指定することができる．ハズ．．．
+
+     とは言うものの，Version2系列でA3CanvasInterfaceを使っている所の
+     APIの変更はしたくない．美しく無いけどVersion2系列ではInterfaceは
+     A3CanvasInterfaceのみを使うこととし，実装できないとか必要無いとか
+     実装すべきでないメソッドはダミーのメソッドを宣言しておくという
+     方向でやってみたい．で，チャントした設計はVersion3系列で取り組む
+     ようにしよう．
+
+     Version3系列のインタフェース設計の時のためにメモを残しておく．
+
+     A3Canvasのメソッドの要約．これを上手いぐあいに細分類して
+     まずはpublicでないInterfaceとして宣言する．
+     * カメラのコントロール
+     * アバタのゲット
+     * ナビゲーションスピードのゲット
+     * 座標変換(単位ベクトルゲット)
+     * ピッキング
+     * UpperDirectionのゲット
+     * プロジェクションのモードとパラメータの制御
+     * A3Objectの追加削除など(バックグラウンド、LockedA3も)
+     * アバタのセット
+     * Component2Dの追加削除など
+     * A3Controllerの追加削除など
+     * シーンのコントロール
+     * リスナの登録など
+     * ナビゲーション設定(ナビゲーションスピード除く)
+     * cleanUp
+     * subCanvasの制御
+     * ナビゲーションスピードのセット
+     * ヘッドライト制御(一応)
+     * UpperDirectionのセット
+
+     上の細分類されたInterfaceをextendsして作成する
+     publicなInterfaceの案(うぅ〜ん．本当に案)
+     * A3Controllerのメンバ変数a3canvasの型になるInterface
+     * Component2DのメソッドにわされるInterface
+     * Sceneが実装するInterface
+     * A3SubCanvas,JA3SubCanvasが実装するInterface
+     * A3Canvas,A3Window,...が実装するInterface
+---------------------------------------------------------------------
+(---)Aloreca3D(Acerola3d Ver3)にむけて。
+    以下の文章は一部を除いてVersion2の用語で書かれている。
+     * Acerola3Dフォーマットの話とライブラリの話を混同しないように
+       ライブラリの方の名前をAloreca3Dという名前にして区別するようにする．
+     * ほとんどのクラスをjp.sourceforge.acerola3d.a3;パッケージに入れてしまう。
+     * a2パッケージの廃止
+     * Action3Dというクラス名をAcerola3Dにする。
+     * (ActionObjectのクラス名はこれで良いか?Action3Dにするか?)
+     * 全てのEnumをパッケージ直下に移動する
+     * A3CanvasInterfaceの機能をを分類して，それに応じて複数のインタフェースを
+       用意して使い分ける．詳細は上の方参照．
+     * シーンの識別子を整数からStringへ変える
+     * アクティブでないシーンへのアクセスは、A3CanvasInterface経由でなく
+       Sceneをpublicなクラスにした上でA3CanvasInterface.getScene()で取り出した
+       シーンに対してアクセスするように変更する
+     * Action3D.change()の引数をString限定にする
+     * setRot(),setCameraRot()の引数の単位をラジアンから度に変更
+     * ...Immediatelyとういメソッド名を...Nowに変更
+     * Action3Dのサウンドの実装をJOALオンリーにしてJava3Dのミキサーの
+       実装は廃止する．
+     * 座標変換のメソッド郡のVector3dとPoint3dの混在をなんとかする．
+     * canvasToPhysicalCSの引数disはこのままでも良いと思うが
+       canvasToVirtualCSの引数disは仮想空間の座標系の長さにすべき？
+     * A3Object.setEnableBehavior()は名称変更して、補完を有効にする
+       メソッドとし、setAutoDirectionControl()などのメソッド呼び出しは
+       自動で補完機能を有効にするようにする。ただし、setAutoDirectionControl(false)
+       などとした時に、補完機能はONのままにするのかOFFにするのかの
+       ルールを明確にしておく必要がある。
+     * A3Object.getTargetLoc()とかA3CanvasInterface.getCameraTargetLoc()
+       というメソッドのTargetという単語。なんかもっと良い単語は無いかな?
+     -----
+     以下まだ考察が必要だけど、とりあえずメモ
+     * Action3Dの読み込みでエラーが出た時にExceptionを投げるのではなく
+       Error3Dオブジェクトが表示されるようにする。
+     * Action3Dの非同期読み込みの機能を用意して、読み込みが完了していない
+       時に、それがわかるような3Dオブジェクトを表示するようにする。でも、非同期
+       読み込みはデフォルトにはしない。それと非同期読み込みが完了したことを
+       確認できるようにする機構も考える。
+     * Action3Dで存在しないアクションを指定した時に、無反応ではなく
+       Error3Dオブジェクトを表示するようにする。
+---------------------------------------------------------------------
+(---)A3CanvasInterfaceを実装するクラスにおいてシーンの概念を
+     導入する。例えば、ゲームタイトルのシーン、ゲームのメインの
+     シーン、ゲームオーバーのシーンなどを作ることができアクティブな
+     シーンを切り替えることで簡単に表示が切り替えられるようにする。
+     既存のA3CanvasIntarfade.add()などは常にアクティブなシーンに
+     対する操作ということにして互換性を維持して拡張すること。 
+
+     A3CanvasIntarfaceに追加すべきメソッドをメモしてみる．
+     void changeActiveScene(int s);
+     int getActiveScene();
+     void add(A3Object a3,int scene);
+     void del(A3Object a3,int scene);
+     void delAll(int scene);
+     void setBackground(A3Object a3,int scene);
+     void delBackground(int scene);
+     void setAvatar(A3Object a3,int scene);
+     A3Object getAvatar(int scene);
+     ...
+
+     A3CanvasIntarfaceで動作を変更すべきメソッドをメモしてみる．
+     void delAll();
+     ...
+
+     いや，思ったより大変かも．
+---------------------------------------------------------------------
+(---)A3CanvasInterface.setCameraLoc(0.0,0.0,100.0)とかにすると
+     かたまる．A3VirtualUniverse内のpickingBehavior.setSchedulingBounds()
+     で設定するBoundingSphereの半径を100000.0とかにすると回避できるのだが，
+     根本的にBoundingSphereの使い方を整理しないといけない．
+     javax.media.j3d.ViewのsetFrontClipDistanceと
+     setBackClipDistanceの値も整理しないといけないかと
+     思ったけど、これはViewを含むTransformGroupのスケールが
+     効いてるのでfront:0.1,back:100.0固定でいくことにする。
+     ついでに、カメラのスケールを必要とする場面や、
+     ナビゲーションスピードなどについてもあわせて考えること。
+
+以下メモ．
+
+BoundingSphereのある場所
+
+A3Background: 1
+  background.setApplicationBounds(bs); //100.0
+A3Fog: 1
+  fog.setInfluencingBounds(bs); //100.0
+A3Object: 1
+  behavior.setSchedulingBounds(bs); //10.0
+A3VirtualUniverse: 3
+  timerBehavior.setSchedulingBounds(bs); //10.0
+  headLight.setInfluencingBounds(...); //100.0
+  pickingBehavior.setSchedulingBounds(**sb**); //100000.0
+Action3DData: 1
+  sound.setSchedulingBounds(boinding); //100.0
+ActionBehavior: 1
+  this.setSchedulingBounds(bounding); //100.0
+SkeletonBehavior: 1
+  this.setSchedulingBounds(bounding); //100.0
+
+---------------------------------------------------------------------
+(---)吹き出しの位置の調節のための座標の指定が，キャラクタ座標系に
+     なっているけど，カメラ座標系に変更するべき．
+---------------------------------------------------------------------
+(---)UpperDirectionの情報は、実はキャラクタを読み込む際に上方向を調節する目的と、
+     AutoDirectionControlで方向を計算する目的の二つで利用している。これは本当は
+     分けた方が良いかもしれない。そして、特にAutoDirectionControlの計算に使用する
+     物の方は上方向ベクトルで直接与えることができるようにして自由度を上げるように
+     した方が良いかもしれない。
+---------------------------------------------------------------------
+(**-)catalog.xmlに含めるRDFの参考としてAdobe XMPを研究してみる。
+     http://www.adobe.com/devnet/xmp/pdfs/xmp_specification.pdf
+     どうも主語はrdf:about=""で良い感じ。(Notation3なら<>)
+---------------------------------------------------------------------
+(---)Freezeを改善するために入れたAction3D.change()関連のsynchronizedのせいで、
+     デッドロックが発生しているっぽい。
+---------------------------------------------------------------------
+(---)catalog.xmlのにp要素にscale,offset,rotをつけたので対応すべし。
+---------------------------------------------------------------------
+(---)autoActionControl関係のコードをA3BehaviorからActionBehaviorに移す。
+---------------------------------------------------------------------
+(---)ActionBehaviorはActionごとにインスタンスを作っていたけど、
+     Action3Dオブジェクト1つに1つとなるように変更すべし。
+     そして、シーングラフを変更する多くのコードをこのBehaviorに
+     移動させるべし。
+---------------------------------------------------------------------
+(---)A3ObjectのデフォルトがisInterpolate=falseになっているが、
+     いっそのこと、trueにしたほうが良くないだろうか？
+---------------------------------------------------------------------
+(---)Action3Dのフォーマットで省略可能なデータをはっきりさせる
+     ことと、本当に省略してエラーにならないかどうかの確認。
+---------------------------------------------------------------------
+(---)Action3DDataオブジェクトは、キャッシュされて再利用される
+     データなので、変更可能なデータが入っているのはおかしい。
+     今のところ、defaultActionNo;walkActionNo;runActionNo;
+     minWalkSpeed;minRunSpeed;あたりがダメ。でもファイルから
+     読んだデフォルト値だとすればOK。
+---------------------------------------------------------------------
+(---)Freezeすることが良くある．まずは原因究明．
+     * Linuxではあまりないが，Soundを使ったAction3Dのchangeの瞬間に
+       Freeze．sound.setEnable(...)をコメントアウトしたらFreezeしな
+       くなった．またはJOALMixerのかわりにJavaSoundMixerを使えば
+       Freezeしない．
+     * Window,MacではよくFreezeする．soundが無くてもFreezeする．
+       何のタイミングなのか要調査．
+---------------------------------------------------------------------
+(---)ずっと見えないふりをしてきた，衝突判定に関して何か対策を
+     考えるべし．
+---------------------------------------------------------------------
+(---)virtualCSToCanvas()とvirtualCSToPhysicalCS()と、
+     physicalCSToVirtualCS()とcanvasToPhysicalCS()、
+     canvasToVirtualCS()、など、Vector3d,Point3d,Tuple3dの
+     使い分けを考えたほうが良いかも。
+---------------------------------------------------------------------
+(*--)そろそろCATALOG.XMLのフォーマットの厳密な定義が必要．
+---------------------------------------------------------------------
+(---)sableccのバージョンを3.2にアップさせると読み込みが非常に遅く
+     なる．もし，それが回避できるなら3.2を使いたい．
+---------------------------------------------------------------------
+(*--)A23.initA23()が必要な場合と、不必要な場合を明確にしておく必要がある。
+---------------------------------------------------------------------
+(*--)データ構造など変更して大幅にプログラムを書き変えた．様子を見よ．
+     変更点は，主に将来的な拡張を見込んだデータ構造の変更．
+     拡張とは，着せ替え，音声データ，モーションデータの汎用化など．
+---------------------------------------------------------------------
+(*--)RDFでメタデータを埋め込むことを考慮するべし。
+---------------------------------------------------------------------
+(**-)Java3DのSceneGraphObjectクラスにあるような
+     setUserData(Object o),getUserData()メソッドを
+     A3Objectに付けたらどうだろう．Hashとかを使う必要が
+     なくなる？つけたけど、まだテストしてない。
+---------------------------------------------------------------------
+(*--)昔懐しのSunの実装したVRMLローダがjava.netで引き継がれることに
+     なったもよう．これに乗り換えた．そしてSoundの再生に着手したけど，
+     まだ不完全，j3d-vrml97のソースを2バイトだけいじって一応音がでる
+     ようにした．(Sound.javaの//setClip()こコメントを外しただけ)
+---------------------------------------------------------------------
+(---)RZipURLConnectionのgetContentLengthの値がどうしてこうなるかわからない。
+(*--)Action3D.change()をAction3D.changeImmediatly()にして、
+     もともとのchange()を待ち行列を利用した実装にする。つまり、複数のアクションを
+     スムーズに連続させる機能。待ち行列があふれるという問題も発生するが…。
+     待ち行列のサイズの上限を3にして実装してみた。一応動くが、プログラムが
+     整理されていない。pauseモードのときに、アクションが切り替わらないバグが
+     発生。もう少し実際使ってみて調整するべし。
+(---)[A]Node.cloneNode(),Node.duplicateNode()あたりを勉強して利用する。
+(---)[A]の利用がポイントだが、キャッシュに保存する内容をAction3D自体にしたい。
+     さらに、Action3Dクラスにキャッシュ操作のためのメソッドを付け加えるべし。
+     例えばAction3D.cleanCash(Action3d a)。そうすれば今までのキャッシュは
+     必要なくなる。Javaの参照オブジェクト(java.lang.ref.*)あたりも勉強。
+(---)[A]に依存するが、Java3Dの構成を練り直して、着せ替え人形機能を実現する。
+(---)[A]を利用しつつ、BVHの切り替えをサポートするべし。ただし、この方法を実現
+     するには、BVHのBoneを省略できるという機能があだになる。
+(**-)Acerola3Dでは+Yが上方向で、VESMAでは+Zが上方向だけど、
+     どうしよう？一応A3Canvas.setCoodinateType()を作った。
+     さらに自由度に座標系を設定できるようにできるはず。
+(---)カメラの自動制御
+(**-)速度を検出して、自動的にActionを変更する機能。3Dの方だけ完成
+(**-)3Dの場合、オブジェクトの向きを進行方向に自動的に向けてやる機能
+     だいたいできたけど、こういう機能は、上方向というのを指定して、
+     それを考慮したプログラムにしたほうが良い。
+(---)A2の読み込み時に画像ファイルが無いとかたまる．
+(---)今のところあまり関係ないけど、A3Canvasの上にswingのメニューを
+     重ねるにはJPopupMenu.setDefaultLightWeightPopupEnabled(false);
+     とすれば良いらしい。
+(---)今のところあまり関係ないけど、A3Canvasの上にswingのツールチップスを
+     重ねるにはToolTipManager.sharedInstance().setLightWeightPopupEnabled(false);
+     とすれば良いらしい。
+(*--)Proxyの設定をシステムから読み込む。
+     一応動くようになったけど、まだ隙だらけ(ftpとか)。
+(---)A3Viewerで一度読み込みに失敗すると次回の読み込み時に
+     MaltipleParentExceptionがスローされる．
+(---)A3のCATALOG.XMLで、scaleとloopアトリビュートを省略可に
+     した。それぞれデフォルトは1.0,falseにした。どっか、マニュアル
+     かなにかで明記するべし。それとscaleした後にoffsetを適用する
+     ということも明記するべし。
+(*--)キャラクタなどの場合に，原点をどこにおくべきなのか？
+     (キャラクタの中心を原点にすると，足とかが地面に埋まる)
+     についての標準的な考え方を示す．(ちょっと逃げを打ったような
+     感じだが、<a>タグでoffsetアトリビュートを使えるようにして
+     この問題を一時的に回避した。つまり、用途によって、このoffset
+     アトリビュートを書換えたA3ファイルを用意して使用するというぐあいに。
+     でも、キャラクタのボリュームを表記するタグをあたらしく付けるのが
+     良い？？？簡単な当り判定にも使えるかも)
+(---)Action3Dにおいて、モーションキャプチャデータをBVHに限定したり、
+     3DジオメトリデータをVRMLに限定する必要はないので、<a>タグの
+     bvh,wrlというアトリビュート名をもっと一般的なものにしたほうが
+     良いかも？！いや、BVH,VRMLに限定すべき！！？
+(---)xj3dのバグ？wrlファイルの中にCone,Cylinderが入ってるとエラーが出る。
+(**-)A3の効率を上げる。だいぶましになったがもうちょっといけるはず。
+(---)ステータスバーの表示がおかしい
+(---)スレッドセーフになってないと思うので、
+     スレッドセーフにしたい。(いちおうA3Loader.loadだけsynchronized
+     にしておいた。)
+(---)Xj3Dだいぶ新しくなったようなのでjavax.media.j3d.Switchが使えるかも(M9ではだめだった)
+(---)サウンドが読めない？AudioClip checkValidContentType???
+(**-)A3の読み込み時にエラーが発生した時に、そのエラーの原因を
+     ちゃんとエラーメッセージとして表示する。
+(**-)Action3Dという名前がすでに使用されてる。他の名前に変更する必要あり
+     Acerola3Dに変更した。ただ、クラス名とかにはまだAction3Dを使ってる。
+----------------------------------------------------------------------
+Acerola3Dファイルフォーマット自体の拡張
+(---)BVHを拡張してscaleを入れれるようにする。
+(*--)オーディオ情報を入れれるように拡張する。直接VRMLファイルの中にいれると良いと思う。
+     まだ、音はでない。
+(---)着せ換え人形機能の搭載
+(*--)jarsignerの署名に対応すると良いかも。署名するとなぜか読めなくなる
+     解凍してもう一回固め直すと読める。
+----------------------------------------------------------------------
+終了～。
+(***)A2、A3共にget2DUIData()とかの中で数字でも渡せるように拡張
+(***)A3の読み込みでテクスチャを使えるようにする。
+(***)ActionGeneratorの146-行目、BVHBehaviorの42-,56-行目で
+     軸をいじっている。このへん、どう整理するか？<--普通にY軸を上で
+     読み込むようにした。VESMAで使うときには、VESMAの方で、Y軸
+     が上になるように変換している。
+(***)JavaWebStartにしたときに、getResourceの引数の書き方で、
+     スラッシュから初めるとエラーになるらしい。
+(***)www.j3d.orgにLightweightComponentとJava3DのFAQがある
+     はずなのでチェックするべし。
+(***)BVHBehaviorは関節に一個でなく、アクションに一個で足りない？
+(***)Action.javaの中でTransformGroupのtg0とtg1は一つに
+     結合できるような気がする
+(***)BVHのROOTに対応するパーツにWRLが対応づけされないようだ．
+(***)Windowsのファイルシステムの一部で，CATALOG.XMLという大文字の
+     ファイル名がcatalog.xmlになってしまうという現象があるので，
+     catalog.xmlでも良いことにするべし．どういうこと？(-"-;)
+(***)Action3Dにコマ送り機能(？)を付ける。
+(***)A3Panelなるものを作ったり、Action3Dにグローバル座標や、
+     グローバル座標に対するQuatを持たせて、Java3Dを全然
+     インポートしなくてもAction3Dを使えるようにする。
+(***)JavaWebStartでは、コアの部分をライブラリ化して
+     A3ViewerとA2Viewerの二つを用意する。
+(***)コメント記入場所の作成
+(***)著作権情報記入場所の作成。コメントのところに入れることにした。
+(***)Action3D.setAutoActionControl()だが、これには、
+     アクションのコントロールだけでなく、正面方向の
+     コントロールも含まれるが、これはA3Objectの機能に
+     移すほうが良い。APIの変更が必要。
+     (メソッド名はsetAutoDirectionControl(boolean b))
+(***)A3Canvas.setCoordinateSystemType()の引数を列挙型にすべし。
+     (メソッド名はsetUpperDirection(A3Canvas.UpperDirection ud)に変更)
+(***)sableccのjava1.5の文法に対応したやつがないかチェクする．
+     (あったけど，なぜか遅い．要調査．)
+(***)lg3d対応する時に気が付いた．A3Behaviorは全てのA3Objectで
+     共有しているので、A3Object.getNode()で得られるNodeをlg3dで
+     使う時にはA3Behaviorは無効でA3Object.setLoc()などが動かない。
+     最初BranchGroupを継承したA3Spaceというクラスを作ってA3Canvas
+     の機能を分割するつもりでいたけど、やっぱりシンプルにいきたいので
+     以下のようにする。
+     -----
+     (1)Behaviorの数は増えるけど、Behaviorのスケジューリング領域
+        とか実行カリングの機能を有効活用するためにA3Behaviorは
+        A3Object一個ずつに付けるようにする。
+     (2)それに従ってA3Behaviorの中に含めていたカメラの処理を
+        CameraBehaviorというクラスに分離。
+     (3)A3Behaviorの全てと,CameraBehaviorを同期させるための
+        TimerBehaviorというのを作る。(そうしないとTextExec12が
+        ブルブルになる。)
+     (4)A3Behaviorは、デフォルトでは
+        100ミリ秒間隔でWakeupするようになっているが、
+        A3Canvas.add()などの処理の時にTimerBehaviorのインスタンスを
+        渡してやることでTimerBehaviorで同期させるようにする。
+     (5)ActionBehaviorはとりあえず、そのまま使う。
+     (6)PickingBehaviorはlg3dではとりあえずあきらめる。
+     -----
+     同期させる方法だけど、TimerBehaviorは100ミリ秒間隔での
+     processStimulus()が呼ばれるようにしておいて、このメソッドの
+     中でpostId(1)を実行し、A3BehaviorとCameraBehaviorはこれを
+     WakeupOnBehaviorPostでキャッチして実行する。ただし、この説明は
+     同期した後の話で、同期前は今までのように100ミリ秒で自前で動作
+     するようにする。

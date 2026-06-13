@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- JNLP File for acerola3d -->
+<jnlp spec="6.0+" codebase="./" href="acerola3d.jnlp">
+  <information>
+    <title>acerola3d</title>
+    <vendor>Kenji Saito</vendor>
+    <homepage href="http://acerola3d.sourceforge.jp/"/>
+    <description>acerola3d library</description>
+    <icon href="./acerola3dIcon.png"/>
+    <offline-allowed/>
+  </information>
+  <security>
+    <all-permissions/>
+  </security>
+  <update check="background" policy="always"/>
+
+  <resources>
+    <java version="1.6+" href="http://java.sun.com/products/autodl/j2se"/>
+    <jar href="lib/j3dcore.jar"/>
+    <jar href="lib/j3dutils.jar"/>
+    <jar href="lib/vecmath.jar"/>
+    <jar href="lib/acerola3d.jar"/>
+    <jar href="lib/gluegen-rt.jar" />
+    <jar href="lib/jogl-all.jar" />
+    <jar href="lib/joal.jar" />
+    <jar href="lib/a3-vrml97.jar"/>
+    <jar href="lib/jbullet.jar"/>
+    <jar href="lib/jl1.0.1.jar"/>
+    <jar href="lib/jorbis-0.0.17.jar"/>
+    <jar href="lib/tritonus_jorbis-0.3.6.jar"/>
+    <jar href="lib/tritonus_mp3-0.3.6.jar"/>
+    <jar href="lib/tritonus_share-0.3.6.jar"/>
+    <jar href="lib/AC3DLoader.jar"/>
+    <jar href="lib/Loader3DS1_2.jar"/>
+    <jar href="lib/NWM.jar"/>
+    <jar href="lib/milkloader.jar"/>
+    <jar href="lib/mqoview20070717.jar"/>
+    <jar href="lib/quakeloaders.jar"/>
+  </resources>
+
+  <resources os="Windows" arch="x86">
+    <nativelib href = "lib/gluegen-rt-natives-windows-i586.jar" />
+    <nativelib href = "lib/jogl-all-natives-windows-i586.jar" />
+    <nativelib href = "lib/joal-natives-windows-i586.jar" />
+  </resources>
+  <resources os="Windows" arch="amd64">
+    <nativelib href = "lib/gluegen-rt-natives-windows-amd64.jar" />
+    <nativelib href = "lib/jogl-all-natives-windows-amd64.jar" />
+    <nativelib href = "lib/joal-natives-windows-amd64.jar" />
+  </resources>
+  <resources os="Windows" arch="x86_64">
+    <nativelib href = "lib/gluegen-rt-natives-windows-amd64.jar" />
+    <nativelib href = "lib/jogl-all-natives-windows-amd64.jar" />
+    <nativelib href = "lib/joal-natives-windows-amd64.jar" />
+  </resources>
+  <resources os="Linux" arch="i386">
+    <nativelib href = "lib/gluegen-rt-natives-linux-i586.jar" />
+    <nativelib href = "lib/jogl-all-natives-linux-i586.jar" />
+    <nativelib href = "lib/joal-natives-linux-i586.jar" />
+  </resources>
+  <resources os="Linux" arch="x86">
+    <nativelib href = "lib/gluegen-rt-natives-linux-i586.jar" />
+    <nativelib href = "lib/jogl-all-natives-linux-i586.jar" />
+    <nativelib href = "lib/joal-natives-linux-i586.jar" />
+  </resources>
+  <resources os="Linux" arch="amd64">
+    <nativelib href = "lib/gluegen-rt-natives-linux-amd64.jar" />
+    <nativelib href = "lib/jogl-all-natives-linux-amd64.jar" />
+    <nativelib href = "lib/joal-natives-linux-amd64.jar" />
+  </resources>
+  <resources os="Linux" arch="x86_64">
+    <nativelib href = "lib/gluegen-rt-natives-linux-amd64.jar" />
+    <nativelib href = "lib/jogl-all-natives-linux-amd64.jar" />
+    <nativelib href = "lib/joal-natives-linux-amd64.jar" />
+  </resources>
+  <resources os="Mac OS X" arch="i386">
+    <nativelib href = "lib/gluegen-rt-natives-macosx-universal.jar" />
+    <nativelib href = "lib/jogl-all-natives-macosx-universal.jar" />
+    <nativelib href = "lib/joal-natives-macosx-universal.jar" />
+  </resources>
+  <resources os="Mac OS X" arch="x86_64">
+    <nativelib href = "lib/gluegen-rt-natives-macosx-universal.jar" />
+    <nativelib href = "lib/jogl-all-natives-macosx-universal.jar" />
+    <nativelib href = "lib/joal-natives-macosx-universal.jar" />
+  </resources>
+
+  <component-desc/>
+</jnlp>

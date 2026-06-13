@@ -1,0 +1,138 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+            targetNamespace="http://acerola3d.sourceforge.jp/a3/catalog"
+            xmlns="http://acerola3d.sourceforge.jp/a3/catalog"
+            xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#">
+
+  <!-- RDFをインポート -->
+<!--
+  <xsd:import namespace="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   schemaLocation="http://www.w3.org/2000/07/rdf.xsd"/>
+-->
+
+  <!-- トップレベルの要素はa3 -->
+  <xsd:element name="a3">
+    <xsd:complexType>
+      <xsd:sequence>
+        <xsd:element ref="c" minOccurs="0" maxOccurs="1"/>
+        <xsd:element ref="tag" minOccurs="0" maxOccurs="unbounded"/>
+        <xsd:element ref="profile" minOccurs="0" maxOccurs="unbounded"/>
+        <xsd:element ref="thumbnail" minOccurs="0" maxOccurs="unbounded"/>
+        <xsd:any processContents="skip" namespace="http://www.w3.org/1999/02/22-rdf-syntax-ns#" minOccurs="0" maxOccurs="1"/>
+<!--
+        <xsd:element ref="rdf:RDF" minOccurs="0" maxOccurs="1"/>
+-->
+        <xsd:element ref="htmlfile" minOccurs="0" maxOccurs="1"/>
+        <xsd:element ref="a" minOccurs="1" maxOccurs="unbounded"/>
+      </xsd:sequence>
+      <xsd:attribute name="haltActionNo" type="xsd:integer" default="0"/>
+      <xsd:attribute name="walkActionNo" type="xsd:integer" default="0"/>
+      <xsd:attribute name="runActionNo" type="xsd:integer" default="0"/>
+      <xsd:attribute name="minWalkSpeed" type="xsd:double" default="0.1"/>
+      <xsd:attribute name="minRunSpeed" type="xsd:double" default="1.0"/>
+      <xsd:attribute name="billboard" type="xsd:boolean" default="false"/>
+    </xsd:complexType>
+  </xsd:element>
+
+  <!-- コメントを指定する要素 -->
+  <xsd:element name="c" type="xsd:string"/>
+
+  <!-- タグを指定する要素 -->
+  <xsd:element name="tag">
+    <xsd:complexType>
+      <xsd:attribute name="name" type="xsd:string" use="required"/>
+    </xsd:complexType>
+  </xsd:element>
+
+  <!-- プロファイルを指定する要素 -->
+  <xsd:element name="profile">
+    <xsd:complexType>
+      <xsd:attribute name="uri" type="xsd:string" use="required"/>
+    </xsd:complexType>
+  </xsd:element>
+
+  <!-- サムネール画像を指定する要素 -->
+  <xsd:element name="thumbnail">
+    <xsd:complexType>
+      <xsd:attribute name="src" type="xsd:string" use="required"/>
+    </xsd:complexType>
+  </xsd:element>
+
+  <!-- HTMLファイルを指定する要素 -->
+  <xsd:element name="htmlfile">
+    <xsd:complexType>
+      <xsd:attribute name="src" type="xsd:string" use="required"/>
+    </xsd:complexType>
+  </xsd:element>
+
+  <!-- 一つのアクション(動作)を表す要素 -->
+  <xsd:element name="a">
+    <xsd:complexType>
+      <xsd:sequence>
+        <xsd:element ref="p" minOccurs="0" maxOccurs="unbounded"/>
+        <xsd:element ref="s" minOccurs="0" maxOccurs="1"/>
+      </xsd:sequence>
+      <xsd:attribute name="an" type="xsd:string" use="required"/>
+      <xsd:attribute name="bvh" type="xsd:string" default="none"/>
+      <xsd:attribute name="loop" type="xsd:boolean" default="false"/>
+      <xsd:attribute name="scale" type="xsd:double" default="1.0"/>
+      <xsd:attribute name="offset" type="real3" default="0.0 0.0 0.0"/>
+      <xsd:attribute name="rot" type="real3" default="0.0 0.0 0.0"/>
+      <xsd:attribute name="rightBalloonOffset" type="real2" default="0.0 0.0"/>
+      <xsd:attribute name="leftBalloonOffset" type="real2" default="0.0 0.0"/>
+      <xsd:attribute name="topBalloonOffset" type="real2" default="0.0 0.0"/>
+      <xsd:attribute name="bottomBalloonOffset" type="real2" default="0.0 0.0"/>
+      <xsd:attribute name="labelOffset" type="real2" default="0.0 0.0"/>
+      <xsd:attribute name="segno" type="xsd:double" default="0.0"/>
+      <xsd:attribute name="dalsegno" type="xsd:double" default="-1.0"/>
+    </xsd:complexType>
+  </xsd:element>
+
+  <!-- Boneを表す要素(bにすればよかった) -->
+  <xsd:element name="p">
+    <xsd:complexType>
+      <xsd:attribute name="name" type="xsd:string" use="required"/>
+      <xsd:attribute name="wrl" type="xsd:string" use="required"/>
+      <xsd:attribute name="scale" type="xsd:double" default="1.0"/>
+      <xsd:attribute name="offset" type="real3" default="0.0 0.0 0.0"/>
+      <xsd:attribute name="rot" type="real3" default="0.0 0.0 0.0"/>
+    </xsd:complexType>
+  </xsd:element>
+
+  <!-- Soundを表す要素 -->
+  <xsd:element name="s">
+    <xsd:complexType>
+      <xsd:attribute name="file" type="xsd:string" use="required"/>
+      <xsd:attribute name="type" type="soundType" default="PointSound"/>
+      <xsd:attribute name="loop" type="xsd:boolean" default="false"/>
+      <xsd:attribute name="gain" type="xsd:double" default="1.0"/>
+      <xsd:attribute name="offset" type="real3" default="0.0 0.0 0.0"/>
+      <xsd:attribute name="direction" type="real3" default="0.0 0.0 1.0"/>
+      <xsd:attribute name="continue" type="xsd:boolean" default="true"/>
+    </xsd:complexType>
+  </xsd:element>
+
+  <!-- 実数の三つ組を表現する属性タイプ(オフセットや回転や方向に使用) -->
+  <!-- 実数(整数)の正規表現これでOK？ [\+\-]?(\d+(\.\d+)?|\.\d+)([eE][\+\-]?\d+)? -->
+  <xsd:simpleType name="real3">
+    <xsd:restriction base="xsd:string">
+      <xsd:pattern value="\s*[\+\-]?(\d+(\.\d+)?|\.\d+)([eE][\+\-]?\d+)?\s+[\+\-]?(\d+(\.\d+)?|\.\d+)([eE][\+\-]?\d+)?\s+[\+\-]?(\d+(\.\d+)?|\.\d+)([eE][\+\-]?\d+)?\s*"/>
+    </xsd:restriction>
+  </xsd:simpleType>
+  <!-- 実数のペアを表現する属性タイプ(吹き出しとラベルのオフセットに使用) -->
+  <xsd:simpleType name="real2">
+    <xsd:restriction base="xsd:string">
+      <xsd:pattern value="s*[\+\-]?(\d+(\.\d+)?|\.\d+)([eE][\+\-]?\d+)?\s+[\+\-]?(\d+(\.\d+)?|\.\d+)([eE][\+\-]?\d+)?\s*"/>
+    </xsd:restriction>
+  </xsd:simpleType>
+
+  <!-- 音源のタイプを表現する属性タイプ -->
+  <xsd:simpleType name="soundType">
+    <xsd:restriction base="xsd:string">
+      <xsd:enumeration value="PointSound"/>
+      <xsd:enumeration value="BackgroundSound"/>
+      <xsd:enumeration value="ConeSound"/>
+    </xsd:restriction>
+  </xsd:simpleType>
+
+</xsd:schema>
